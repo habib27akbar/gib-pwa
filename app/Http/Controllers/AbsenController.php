@@ -7,7 +7,7 @@ use App\Models\AbsenKaryawan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-
+use Intervention\Image\Facades\Image;
 
 class AbsenController extends Controller
 {
@@ -21,34 +21,83 @@ class AbsenController extends Controller
         return view('absen.create');
     }
 
+    // public function store(Request $request)
+    // {
+    //     $nama_image = null;
+    //     if ($request->file('image')) {
+    //         $image = $request->file('image');
+    //         $nama_image = 'absen-' . uniqid();
+    //         $dir = 'img/absen';
+    //         $image->move(public_path($dir), $nama_image);
+    //     }
+
+    //     if (auth()->id() == 2) {
+    //         var_dump($nama_image);
+    //         //exit;
+    //     }
+
+
+
+    //     $storeData = [
+    //         'id_user' => auth()->id(),
+    //         'tanggal' => date('Y-m-d'),
+    //         'longitude' => $request->input('longitude'),
+    //         'latitude' => $request->input('latitude'),
+    //         'image' => $nama_image,
+
+    //     ];
+    //     AbsenKaryawan::create($storeData);
+    //     return redirect('absen')->with('alert-success', 'Absen Sukses');
+    // }
+
+
     public function store(Request $request)
     {
         $nama_image = null;
+
         if ($request->file('image')) {
             $image = $request->file('image');
-            $nama_image = 'absen-' . uniqid();
-            $dir = 'img/absen';
-            $image->move(public_path($dir), $nama_image);
+
+            // nama unik
+            $nama_image = 'absen-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // path simpan
+            $dir = public_path('img/absen');
+
+            // buat folder kalau belum ada
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            // buka gambar dengan Intervention Image
+            $img = Image::make($image->getRealPath());
+
+            // resize opsional, misalnya max width 800px tapi jaga rasio
+            $img->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            // simpan dengan kualitas terkompresi (0 = buruk, 100 = asli)
+            $img->save($dir . '/' . $nama_image, 35); // 35% quality
         }
 
-        if (auth()->id() == 2) {
-            var_dump($nama_image);
-            //exit;
-        }
-
-
+        // if (auth()->id() == 2) {
+        //     var_dump($nama_image);
+        // }
 
         $storeData = [
-            'id_user' => auth()->id(),
-            'tanggal' => date('Y-m-d'),
+            'id_user'   => auth()->id(),
+            'tanggal'   => date('Y-m-d'),
             'longitude' => $request->input('longitude'),
-            'latitude' => $request->input('latitude'),
-            'image' => $nama_image,
-
+            'latitude'  => $request->input('latitude'),
+            'image'     => $nama_image,
         ];
+
         AbsenKaryawan::create($storeData);
         return redirect('absen')->with('alert-success', 'Absen Sukses');
     }
+
 
     // public function store(Request $request)
     // {

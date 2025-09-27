@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Produk;
@@ -31,6 +32,16 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Auth;
+=======
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KomplainController;
+use App\Http\Controllers\KunjunganController;
+
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,6 +57,7 @@ use Illuminate\Support\Facades\Auth;
 //     return view('auth.login');
 // })->name('login');
 Route::get('/', function () {
+<<<<<<< HEAD
     if (Auth::check()) {
         return redirect()->route('home');
     }
@@ -53,6 +65,11 @@ Route::get('/', function () {
     return redirect()->route('welcome.home_page');
 });
 
+=======
+    return view('auth.login');
+})->name('login');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 Route::post('/login', [AuthController::class, 'login'])->name('authenticate');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -101,6 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/komplain', [KomplainController::class, 'getKomplain']);
     Route::resource('kunjungan', KunjunganController::class);
     Route::get('/api/kunjungan', [KunjunganController::class, 'getKunjungan']);
+<<<<<<< HEAD
     Route::get('/api/kunjungan_teknisi', [KunjunganController::class, 'getKunjunganTeknisi']);
     Route::post('/kunjungan/{kunjungan}/absen', [KunjunganController::class, 'absen'])
         ->name('kunjungan.absen');
@@ -227,4 +245,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->where('id_item_customer', $id)->get();
         return response()->json($unit);
     });
+=======
+    Route::post('/kunjungan/{kunjungan}/absen', [KunjunganController::class, 'absen'])
+        ->name('kunjungan.absen');
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 });

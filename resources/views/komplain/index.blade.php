@@ -124,18 +124,26 @@ function loadProducts(sort = 'newest', page = 1, search = '') {
 
                                         <!-- Konten -->
                                         <div class="card-content px-4 py-2">
+<<<<<<< HEAD
                                             <a class="product-title d-block text-truncate mt-0" href="${urlPath}/${komplain.id}/edit" style="font-size:12px">
                                                 ${komplain.judul}<br/>
                                                 QR CODE : ${komplain.serial_number}<br/>
                                                
                                                 Catatan : ${komplain.pesan ? komplain.pesan.substring(0, 20) + (komplain.pesan.length > 20 ? '...' : '') : ''}
+=======
+                                            <a class="product-title d-block text-truncate mt-0" href="${urlPath}/${komplain.id}/edit">
+                                                ${komplain.pesan}
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
                                             </a>
                                             <a class="btn btn-outline-info btn-sm" href="#">
                                                Created at : ${komplain.updated_at_formatted ? komplain.updated_at_formatted : komplain.created_at_formatted}
                                             </a>
+<<<<<<< HEAD
                                             ${komplain.sts == 1 ? `
                                                 <i style="color:green;" class="fa fa-check"> Selesai</i>
                                             ` : ''}
+=======
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
                                         </div>
                                     </div>
                                 </div>
@@ -167,6 +175,17 @@ function debounce(func, delay) {
 // Event listener untuk input pencarian
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
+<<<<<<< HEAD
+=======
+
+    if (searchInput) {
+        searchInput.addEventListener("keyup", debounce(function () {
+            const searchQuery = this.value.trim();
+            loadProducts('newest', 1, searchQuery);
+        }, 500)); // Tunggu 500ms sebelum memanggil API
+    }
+});
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 
     if (searchInput) {
         searchInput.addEventListener("keyup", debounce(function () {

@@ -200,8 +200,34 @@
 
 	                        <div class="col-4">
 	                            <div class="feature-card mx-auto text-center">
+<<<<<<< HEAD
 	                                <a href="{{ route('kontak.index') }}">
 	                                    <div class="card mx-auto bg-primary "><img src="{{ asset('img/icons/kontak.png') }}" alt=""></div>
+=======
+	                                <a href="{{ route('kunjungan.index') }}">
+	                                    <div class="card mx-auto bg-secondary "><img src="{{ asset('img/icons/kunjungan.png') }}" alt=""></div>
+	                                </a>
+	                                <p class="mb-0">Kunjungan</p>
+	                            </div>
+	                        </div>
+
+
+	                        <div class="col-4">
+	                            <div class="feature-card mx-auto text-center">
+	                                <a href="profile.html">
+	                                    <div class="card mx-auto bg-primary "><img src="{{ asset('img/icons/profile.png') }}" alt=""></div>
+	                                </a>
+	                                <p class="mb-0">Profile</p>
+	                            </div>
+	                        </div>
+
+
+
+	                        <div class="col-4">
+	                            <div class="feature-card mx-auto text-center">
+	                                <a href="kontak.html">
+	                                    <div class="card mx-auto bg-secondary "><img src="{{ asset('img/icons/kontak.png') }}" alt=""></div>
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 	                                </a>
 	                                <p class="mb-0">Kontak</p>
 	                            </div>

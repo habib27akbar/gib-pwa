@@ -1,5 +1,9 @@
 @extends('layouts.master')
+<<<<<<< HEAD
 @section('title','Kunjungan')
+=======
+@section('title','User')
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 @section('content')
 
         <div class="page-content-wrapper py-3">
@@ -9,8 +13,13 @@
 				<div class="container">
 					
                     <div class="d-flex align-items-center justify-content-between">
+<<<<<<< HEAD
                         {{-- <a href="{{ route('kunjungan.create') }}" class="btn btn-primary">Tambah</a> --}}
                          <input type="text" id="search-input" class="form-control" placeholder="Cari kunjungan...">
+=======
+                        <a href="{{ route('kunjungan.create') }}" class="btn btn-primary">Tambah</a>
+                         <input type="text" id="search-input" class="form-control" placeholder="Cari kunjungan..." style="max-width: 300px;">
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
                     </div>
                             
 						
@@ -86,8 +95,12 @@
 
 function loadProducts(sort = 'newest', page = 1, search = '') {
     const apiUrl = `{{ url('/api/kunjungan') }}?sort=${sort}&page=${page}&search=${encodeURIComponent(search)}`;
+<<<<<<< HEAD
     //console.log(apiUrl);
     
+=======
+
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -104,6 +117,7 @@ function loadProducts(sort = 'newest', page = 1, search = '') {
                             <div class="card single-product-card">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
+<<<<<<< HEAD
                                         
 
                                         <!-- Konten -->
@@ -119,6 +133,42 @@ function loadProducts(sort = 'newest', page = 1, search = '') {
                                             </a>
                                             
                                             
+=======
+                                        <!-- Gambar Kunjungan (Kiri & Kanan) -->
+                                        <div class="card-side-img d-flex">
+                                            <!-- Gambar Utama -->
+                                            ${kunjungan.gambar ? `
+                                                <a class="product-thumbnail d-block me-2" href="${urlPath}/${kunjungan.id}/edit">
+                                                    <img src="${assetPath}/${kunjungan.gambar}">
+                                                </a>
+                                            ` : ''}
+
+                                            <!-- Gambar Galeri -->
+                                            ${kunjungan.gambar_galeri ? `
+                                                <a class="product-thumbnail d-block" href="${urlPath}/${kunjungan.id}/edit">
+                                                    <img src="${assetPath}/${kunjungan.gambar_galeri}">
+                                                </a>
+                                            ` : ''}
+                                        </div>
+
+                                        <!-- Konten -->
+                                        <div class="card-content px-4 py-2">
+                                            <a class="product-title d-block text-truncate mt-0" href="${urlPath}/${kunjungan.id}/edit">
+                                                ${kunjungan.alamat}
+                                                <br/>
+                                                ${kunjungan.catatan ? kunjungan.catatan : ''}
+                                            </a>
+                                            <small>
+                                               Created at : ${kunjungan.updated_at_formatted ? kunjungan.updated_at_formatted : kunjungan.created_at_formatted}
+                                            </small>
+                                            ${kunjungan.gambar_absen ? `
+                                                <i class="bi bi-check-square-fill" style="color:green;"></i> Sudah Absen
+                                            ` : `
+                                            <a class="btn btn-outline-info btn-sm" href="${urlPath}/${kunjungan.id}/">
+                                                Absensi
+                                            </a>
+                                            `}
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
                                             
                                         </div>
                                     </div>
@@ -139,6 +189,7 @@ function loadProducts(sort = 'newest', page = 1, search = '') {
         .catch(error => console.error("Error fetching products:", error));
 }
 
+<<<<<<< HEAD
 function formatTanggal(tgl) {
     const date = new Date(tgl);
     const pad = n => n.toString().padStart(2, '0');
@@ -146,6 +197,8 @@ function formatTanggal(tgl) {
     return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${shortYear}`;
 }
 
+=======
+>>>>>>> e92709dadf761bb5743b7595b7e4d812ec08228e
 // Fungsi debounce untuk mencegah request berulang saat mengetik
 function debounce(func, delay) {
     let timer;
