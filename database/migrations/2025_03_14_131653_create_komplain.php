@@ -15,8 +15,8 @@ class CreateKomplain extends Migration
     {
         Schema::create('komplain', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-
+            $table->integer('user_id');
+            $table->integer('user_confirm')->nullable();
             $table->text('pesan');
             $table->timestamps();
         });

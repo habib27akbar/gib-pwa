@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "id.co.ptgib.twa",
+      "sha256_cert_fingerprints":
+        ["47:E0:BE:E2:18:8E:6A:C0:8E:77:07:90:74:87:55:ED:44:A8:6B:B5:7C:21:9C:EB:8E:3C:CD:F7:D2:46:48:3C"]
+    }
+  }
+]

@@ -4,14 +4,43 @@
         <!-- Header Content -->
         <div class="header-content position-relative d-flex align-items-center justify-content-between">
             <!-- Back Button -->
-            <div class="back-button"><a href="{{ route('home') }}">
-                    <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
-                    </svg></a></div>
-
+            <div class="back-button">
+                @php
+                    $segmentCount = count(Request::segments());
+                @endphp
+                @if ($segmentCount > 1)
+                
+                    @if (Request::segment(1) == 'history')
+                        <a href="{{ route('qr_produk.edit_custom', ['param' => request()->get('param')]) }}">
+                            <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
+                            </svg>
+                        </a>
+                    @elseif(Request::segment(1) == 'qr_produk' && $segmentCount > 2)
+                        <a href="{{route('home')}}">
+                            <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
+                            </svg>
+                        </a>
+                    @else
+                        <a href="{{url(Request::segment(1))}}">
+                            <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
+                            </svg>
+                        </a>
+                    @endif
+                @else
+                    <a href="{{route('home')}}">
+                        <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"></path>
+                        </svg>
+                    </a>
+                @endif
+               
+            </div>
 
             <div class="page-heading">
-                <h6 class="mb-0">{{ ucfirst(Request::segment(1)) }}</h6>
+                <h6 class="mb-0">{{ ucfirst(str_replace('_', ' ', Request::segment(1))) }}</h6>
             </div>
 
 

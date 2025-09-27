@@ -22,6 +22,7 @@
 	    <!------------------- Favicon ---------------------->
 	    <link rel="icon" href="{{ asset('img/core-img/favicon.ico') }}">
 	    <link rel="apple-touch-icon" href="{{ asset('img/icons/icon-96x96.png') }}">
+		<link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/icons/icon-144x144.png') }}">
 	    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/icons/icon-152x152.png') }}">
 	    <link rel="apple-touch-icon" sizes="167x167" href="{{ asset('img/icons/icon-167x167.png') }}">
 	    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/icons/icon-180x180.png') }}">
@@ -37,13 +38,22 @@
 	    <link rel="stylesheet" href="{{ asset('css/vanilla-dataTables.min.css') }}">
 	    <link rel="stylesheet" href="{{ asset('css/apexcharts.css') }}">
 	    <link rel="stylesheet" href="{{ asset('style.css') }}">
-	    <link rel="manifest" href="{{ asset('manifest.json') }}">
+	    <link rel="manifest" href="{{ url('manifest.json') }}">
+		<link rel="stylesheet" href="{{ asset('/msg/css/font-awesome.min.css') }}">
 	    <!------------------------------------------------------>
 
 
 
 
 	</head>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			overflow: hidden; /* Mencegah scroll */
+		}
+	</style>
 
 	<body>
 
@@ -56,35 +66,57 @@
 
 	    <div class="internet-connection-status" id="internetStatus"></div>
 
-
+		@if(true)
 	    <!---------------------------------------------->
-	    <div class="login-wrapper d-flex align-items-center justify-content-center">
-	        <div class="custom-container">
-	            <div class="text-center px-4"><img class="login-intro-img" src="{{ asset('img/bg-img/login_bg.png') }}" alt=""></div>
+			<div class="login-wrapper d-flex align-items-center justify-content-center" style="padding-top: 0;padding-bottom:5rem;">
+				<div class="custom-container">
+					<div class="text-center px-4"><img class="login-intro-img" src="{{ asset('img/bg-img/login_bg.png') }}" alt=""></div>
 
-	            <div class="register-form mt-4">
-	                <form action="{{ route('authenticate') }}" method="POST">
-                        @csrf
-	                    <div class="form-group">
-	                        <input class="form-control" type="text" name="username" placeholder="Username">
-	                    </div>
-	                    <div class="form-group position-relative">
-	                        <input class="form-control" id="psw-input" type="password" name="password" placeholder="Enter Password">
-	                        <div class="position-absolute" id="password-visibility"><i class="bi bi-eye"></i><i class="bi bi-eye-slash"></i></div>
-	                    </div>
-                        <div class="form-group position-relative">
-                            <img src="{{ captcha_src() }}" alt="CAPTCHA Image"><button type="button" onclick="refreshCaptcha()">🔄</button>
-	                        <input type="text" class="form-control" name="captcha" placeholder="Captcha">
-	                    </div>
-	                    <button class="btn btn-primary w-100" type="submit">LOGIN</button>
-	                </form>
-	            </div>
-	            <!---------------------------------------------->
+					<div class="register-form">
+						@if ($errors->any())
+							<div class="alert alert-danger">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+						@endif
+						@if (session('alert-danger'))
+							<div class="alert alert-danger">
+								{{Session::get('alert-danger')}}	
+							</div>
+						@endif
 
 
+						<form action="{{ route('authenticate') }}" method="POST">
+							@csrf
+							<div class="form-group">
+								<input class="form-control" type="text" name="username" placeholder="Username">
+							</div>
+							<div class="form-group position-relative">
+								<input class="form-control" id="psw-input" type="password" name="password" placeholder="Enter Password">
+								<div class="position-absolute" id="password-visibility"><i class="bi bi-eye"></i><i class="bi bi-eye-slash"></i></div>
+							</div>
+							<div class="form-group position-relative">
+								<img src="{{ captcha_src() }}" alt="CAPTCHA Image"><button type="button" onclick="refreshCaptcha()">🔄</button>
+								<input type="text" class="form-control" name="captcha" placeholder="Captcha">
+							</div>
+							<button class="btn btn-primary w-100" type="submit">LOGIN</button>
+							
+						</form>
+					</div>
+					<!---------------------------------------------->
 
-	        </div>
-	    </div>
+
+
+				</div>
+			</div>
+		@endif
+
+		
+
+		 @include('include.footer_welcome')
 
 
 
@@ -103,7 +135,8 @@
 	    <script src="{{ asset('js/dark-rtl.js')}}"></script>
 	    <script src="{{ asset('js/active.js')}}"></script>
 	    <!-- PWA -->
-	    <script src="{{ asset('js/pwa.js')}}"></script>
+		<script src="{{ url('upup.min.js')}}"></script>
+	    
         <script>
             function refreshCaptcha() {
                 fetch('{{ route("captcha.refresh") }}')
@@ -112,6 +145,15 @@
                         document.querySelector("img[alt='CAPTCHA Image']").src = data.captcha;
                     });
             }
+			UpUp.start({
+				'cache-version': 'v2',
+				'content-url': 'https://app.ptgib.co.id/',
+
+				'content': 'Cannot reach site. Please check your internet connection.',
+				'service-worker-url': 'https://app.ptgib.co.id/upup.sw.min.js'
+			});
+
+			
         </script>
 	</body>
 

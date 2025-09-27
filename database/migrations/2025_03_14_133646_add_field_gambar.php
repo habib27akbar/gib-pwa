@@ -14,7 +14,8 @@ class AddFieldGambar extends Migration
     public function up()
     {
         Schema::table('komplain', function (Blueprint $table) {
-            $table->string('gambar');
+            $table->string('gambar')->after('pesan')->nullable();
+            $table->string('gambar_galeri')->after('gambar')->nullable();
             $table->integer('sts');
         });
     }

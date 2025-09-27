@@ -1,0 +1,50 @@
+{
+  "name": "GIB",
+  "short_name": "GIB",
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "https://app.ptgib.co.id/",
+  "background_color": "#0d5afd",
+  "theme_color": "#0d5afd",
+  "orientation": "portrait",
+  "description": "GIB PWA",
+  "url": "https://app.ptgib.co.id/",
+  "manifestUrl": "https://app.ptgib.co.id/manifest.json",
+  "android": {
+    "targetSdkVersion": 35,
+    "minSdkVersion": 21
+  },
+   "screenshots": [
+      {
+      "src": "public/img/icons/640x320.jpeg",
+        "sizes": "739x587",
+        "type": "image/jpeg",
+        "form_factor": "wide",
+        "label": "Tampilan Desktop"
+      },
+      {
+      "src": "public/img/icons/320x612.jpeg",
+        "sizes": "320x612",
+        "type": "image/jpeg",
+        "form_factor": "narrow",
+        "label": "Tampilan Mobile"
+      }
+  ],
+  "icons": [
+    {
+      "src": "public/img/icons/icon-72x72_new.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "public/img/icons/icon-192x192_.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "public/img/icons/icon-512x512_.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

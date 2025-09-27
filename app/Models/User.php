@@ -22,7 +22,8 @@ class User extends Authenticatable
         'username',
         'no_hp',
         'foto',
-        'password'
+        'password',
+        'id_customer'
     ];
 
     /**

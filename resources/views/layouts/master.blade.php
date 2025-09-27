@@ -7,6 +7,7 @@
 	   
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="theme-color" content="#0134d4">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 	    <meta name="apple-mobile-web-app-capable" content="yes">
 	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -37,10 +38,11 @@
 	    <link rel="stylesheet" href="{{ asset('css/vanilla-dataTables.min.css') }}">
 	    <link rel="stylesheet" href="{{ asset('css/apexcharts.css') }}">
 	    <link rel="stylesheet" href="{{ asset('style.css') }}">
-	    <link rel="manifest" href="{{ asset('manifest.json') }}">
+	    <link rel="manifest" href="{{ url('manifest.json') }}">
+		<link rel="stylesheet" href="{{ asset('/msg/css/font-awesome.min.css') }}">
 	    <!------------------------------------------------------>
 
-
+		@yield('css')
 
 
 	</head>
@@ -113,24 +115,42 @@
 	        </div>
 	    </div>
 
-        @include('include.header')
-        @yield('content')
-        @include('include.footer')
+       
+    		@include('include.header')
+		
+        	@yield('content')
+
+		
+    		@include('include.footer')
+		
+       
         <!-- Scripts -->
-        <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+        
 	    <script src="{{ asset('js/slideToggle.min.js')}}"></script>
 	    <script src="{{ asset('js/internet-status.js')}}"></script>
 	    <script src="{{ asset('js/tiny-slider.js')}}"></script>
 	    <script src="{{ asset('js/baguetteBox.min.js')}}"></script>
-	    <script src="{{ asset('js/countdown.js')}}"></script>
+	    {{-- <script src="{{ asset('js/countdown.js')}}"></script> --}}
 	    <script src="{{ asset('js/rangeslider.min.js')}}"></script>
 	    <script src="{{ asset('js/vanilla-dataTables.min.js')}}"></script>
 	    <script src="{{ asset('js/index.js')}}"></script>
 	    <script src="{{ asset('js/magic-grid.min.js')}}"></script>
 	    <script src="{{ asset('js/dark-rtl.js')}}"></script>
 	    <script src="{{ asset('js/active.js')}}"></script>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	    <!-- PWA -->
-	    <script src="{{ asset('js/pwa.js')}}"></script>
+	    <script src="{{ url('upup.min.js')}}"></script>
+		<script>
+			UpUp.start({
+				'cache-version': 'v2',
+				'content-url': 'https://app.ptgib.co.id/',
+
+				'content': 'Cannot reach site. Please check your internet connection.',
+				'service-worker-url': 'https://app.ptgib.co.id/upup.sw.min.js'
+			});
+		</script>
 		@yield('js')
     </body>
 </html>

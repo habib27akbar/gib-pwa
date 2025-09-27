@@ -39,6 +39,16 @@ class TanggalHelper
         return $get_date;
     }
 
+    function get_dd_mm_yyyy($tanggal)
+    {
+        $explode = explode("-", $tanggal);
+        $get_date = $explode[2] . '/' . $explode[1] . '/' . substr($explode[0], 2, 2);
+
+        return $get_date;
+
+        //return $get_date;
+    }
+
     public function get_day_name($tanggal)
     {
         $days = [

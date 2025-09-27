@@ -13,13 +13,19 @@
 	                </div>
 
 	                <ul class="sidenav-nav ps-0">
-	                    <li><a href="#"><i class="bi bi-house-door"></i>Beranda</a></li><br>
-	                    <li><a href="#"><i class="bi bi-person"></i>Profile</a></li>
-	                    <li><a href="#"><i class="bi bi-book"></i>e-Catalog</a></li>
-	                    <li><a href="#"><i class="bi bi-gear"></i>Produk</a></li>
-	                    <li><a href="#"><i class="bi bi-chat-dots"></i>Komplain</a></li>
-	                    <li><a href="#"><i class="bi bi-map"></i>Kunjungan</a></li>
-	                    <li><a href="#"><i class="bi bi-envelope"></i>Kontak</a></li>
+	                    <li><a href="{{ route('home') }}"><i class="bi bi-house-door"></i>Beranda</a></li>
+						@if (Auth::user()->level == 'customer')
+							<li><a href="{{ route('profile.index') }}"><i class="bi bi-person"></i>Profile</a></li>
+							<li><a href="{{ route('catalog.index') }}"><i class="bi bi-book"></i>e-Catalog</a></li>
+							<li><a href="{{ route('produk.index') }}"><i class="bi bi-gear"></i>Produk</a></li>
+							<li><a href="{{ route('komplain.index') }}"><i class="bi bi-chat-dots"></i>Komplain</a></li>
+							<li><a href="{{ route('kontak.index') }}"><i class="bi bi-envelope"></i>Kontak</a></li>
+						@endif
+	                    @if (Auth::user()->level == 'teknisi')
+							<li><a href="{{ route('kunjungan.index') }}"><i class="bi bi-map"></i>Kunjungan Komplain</a></li>
+	                    	<li><a href="{{ route('kunjungan.index') }}"><i class="bi bi-map"></i>Kunjungan Rutin</a></li>
+						@endif
+	                    
                         <li>
                             <div class="night-mode-nav"><i class="bi bi-moon"></i>Night Mode
                                 <div class="form-check form-switch">
@@ -27,7 +33,14 @@
                                 </div>
                             </div>
 	                    </li>
-	                    <li><a href="page-login.html"><i class="bi bi-box-arrow-right"></i>Logout</a></li>
+	                    <li>
+							<a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+								<i class="bi bi-box-arrow-right"></i> Logout
+							</a>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								@csrf
+							</form>
+						</li>
 	                </ul>
 
 	            </div>

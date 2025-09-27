@@ -9,10 +9,8 @@
 				<div class="container">
 					
                     <div class="d-flex align-items-center justify-content-between">
-                        
-                            
-
-                        <a href="{{ route('komplain.create') }}" class="btn btn-primary mb-3">Tambah</a>
+                        <a href="{{ route('komplain.create') }}" class="btn btn-primary">Tambah</a>
+                         <input type="text" id="search-input" class="form-control" placeholder="Cari Komplain..." style="max-width: 300px;">
                     </div>
                             
 						
@@ -46,8 +44,13 @@
 			<div class="top-products-area product-list-wrap">
 				<div class="container">
 					<div class="row g-3">
-
-                    
+                        <div class="col-12">
+                            <div class="card single-product-card">
+                                <div class="card-body">
+                                    <h3 style="text-align: center">Loading..</h3>
+                                </div>
+                            </div>
+                        </div>
 						
 					</div>
 				</div>
@@ -60,19 +63,7 @@
 						<div class="card-body py-3">
 							<nav aria-label="Page navigation example">
 								<ul class="pagination pagination-two justify-content-center">
-									<li class="page-item"><a class="page-link" href="#" aria-label="Previous">
-											<svg class="bi bi-chevron-left" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-												<path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-											</svg></a></li>
-									<li class="page-item active"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">...</a></li>
-									<li class="page-item"><a class="page-link" href="#">9</a></li>
-									<li class="page-item"><a class="page-link" href="#" aria-label="Next">
-											<svg class="bi bi-chevron-right" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-												<path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
-											</svg></a></li>
+									No Data
 								</ul>
 							</nav>
 						</div>
@@ -91,49 +82,106 @@
         });
     });
 
-function loadProducts(sort = 'newest', page = 1) {
-    fetch(`{{ url('/api/komplain') }}?sort=${sort}&page=${page}`)
+
+
+function loadProducts(sort = 'newest', page = 1, search = '') {
+    const apiUrl = `{{ url('/api/komplain') }}?sort=${sort}&page=${page}&search=${encodeURIComponent(search)}`;
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             const komplainContainer = document.querySelector(".top-products-area .container .row");
             komplainContainer.innerHTML = "";
 
-            data.data.forEach(komplain => {
-                 //console.log(komplain.created_at_formatted);
-                komplainContainer.innerHTML += `
-                    <div class="col-12">
-                        <div class="card single-product-card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="card-side-img">
-                                        <a class="product-thumbnail d-block" href="catalog-detail.html?id=${komplain.id}">
-                                            <img src="${komplain.gambar}">
-                                        </a>
-                                    </div>
-                                    <div class="card-content px-4 py-2">
-                                        <a class="product-title d-block text-truncate mt-0" href="${komplain.id}">
-                                            ${komplain.pesan}
-                                        </a>
-                                        <a class="btn btn-outline-info btn-sm" href="#">
-                                            ${komplain.updated_at_formatted ? komplain.updated_at_formatted : komplain.created_at_formatted}
-                                        </a>
+            if (data.data.length > 0) {
+                data.data.forEach(komplain => {
+                    const assetPath = "{{ asset('img/komplain/') }}";
+                    const urlPath = "{{ url('/komplain/') }}";
+
+                    komplainContainer.innerHTML += `
+                        
+
+                        <div class="col-12">
+                            <div class="card single-product-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <!-- Gambar Kunjungan (Kiri & Kanan) -->
+                                        <div class="card-side-img d-flex">
+                                            <!-- Gambar Utama -->
+                                            ${komplain.gambar ? `
+                                                <a class="product-thumbnail d-block me-2" href="${urlPath}/${komplain.id}/edit">
+                                                    <img src="${assetPath}/${komplain.gambar}">
+                                                </a>
+                                            ` : ''}
+
+                                            <!-- Gambar Galeri -->
+                                            ${komplain.gambar_galeri ? `
+                                                <a class="product-thumbnail d-block" href="${urlPath}/${komplain.id}/edit">
+                                                    <img src="${assetPath}/${komplain.gambar_galeri}">
+                                                </a>
+                                            ` : ''}
+                                        </div>
+
+                                        <!-- Konten -->
+                                        <div class="card-content px-4 py-2">
+                                            <a class="product-title d-block text-truncate mt-0" href="${urlPath}/${komplain.id}/edit" style="font-size:12px">
+                                                ${komplain.judul}<br/>
+                                                QR CODE : ${komplain.serial_number}<br/>
+                                               
+                                                Catatan : ${komplain.pesan ? komplain.pesan.substring(0, 20) + (komplain.pesan.length > 20 ? '...' : '') : ''}
+                                            </a>
+                                            <a class="btn btn-outline-info btn-sm" href="#">
+                                               Created at : ${komplain.updated_at_formatted ? komplain.updated_at_formatted : komplain.created_at_formatted}
+                                            </a>
+                                            ${komplain.sts == 1 ? `
+                                                <i style="color:green;" class="fa fa-check"> Selesai</i>
+                                            ` : ''}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+
+                document.querySelector(".showing-info").innerText = `Menampilkan ${data.data.length} dari ${data.total}`;
+            } else {
+                document.querySelector(".showing-info").innerText = "Tidak ada hasil yang ditemukan.";
+            }
 
             updatePagination(data);
-
-            // Update teks "Showing x of y"
-            document.querySelector(".showing-info").innerText = `Showing ${data.data.length} of ${data.total}`;
         })
         .catch(error => console.error("Error fetching products:", error));
 }
 
+// Fungsi debounce untuk mencegah request berulang saat mengetik
+function debounce(func, delay) {
+    let timer;
+    return function () {
+        const context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(context, args), delay);
+    };
+}
 
+// Event listener untuk input pencarian
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-input");
+
+    if (searchInput) {
+        searchInput.addEventListener("keyup", debounce(function () {
+            const searchQuery = this.value.trim();
+            loadProducts('newest', 1, searchQuery);
+        }, 500)); // Tunggu 500ms sebelum memanggil API
+    }
+});
+
+function formatTanggal(tgl) {
+    const date = new Date(tgl);
+    const pad = n => n.toString().padStart(2, '0');
+    const shortYear = date.getFullYear().toString().slice(-2); // ambil dua digit terakhir
+    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${shortYear}`;
+}
 
 function updatePagination(data) {
     const paginationContainer = document.querySelector(".pagination");

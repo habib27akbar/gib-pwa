@@ -72,6 +72,16 @@ class AuthController extends Controller
             return redirect()->intended('/home');
         }
 
+        $user = User::where('username', $request->input('username'))->first();
+
+        if (!$user) {
+            return back()->with('alert-danger', 'Username tidak ditemukan');
+        }
+
+        if (Hash::check($request->input('password'), $user->password)) {
+            return back()->with('alert-danger', 'Password salah');
+        }
+
         return back()->with('alert-danger', 'Login Failed!');
     }
 
