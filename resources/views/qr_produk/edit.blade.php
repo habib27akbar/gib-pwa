@@ -17,7 +17,7 @@
                                     <img src="https://ptgib.co.id/asset/img_produk/{{ $daftarGambar[0] }}" class="card-img-top" alt="{{ $produk->judul }}" style="object-fit: cover;">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $produk->judul }}</h5>
-                                        <div><?=$produk->isi_produk?></div>
+                                        <div><?=Auth::check()?'':$produk->isi_produk?></div>
                                         @if (Auth::check())
                                             @if (
                                                 //false

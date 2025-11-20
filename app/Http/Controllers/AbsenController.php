@@ -58,28 +58,23 @@ class AbsenController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
 
-            // nama unik
+            // nama unik + extension
             $nama_image = 'absen-' . uniqid() . '.' . $image->getClientOriginalExtension();
 
             // path simpan
             $dir = public_path('img/absen');
-
-            // buat folder kalau belum ada
             if (!file_exists($dir)) {
                 mkdir($dir, 0777, true);
             }
 
-            // buka gambar dengan Intervention Image
-            $img = Image::make($image->getRealPath());
-
-            // resize opsional, misalnya max width 800px tapi jaga rasio
-            $img->resize(800, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            // simpan dengan kualitas terkompresi (0 = buruk, 100 = asli)
-            $img->save($dir . '/' . $nama_image, 35); // 35% quality
+            // proses dengan kompresi & orientasi
+            Image::make($image->getRealPath())
+                ->orientate() // fix rotasi dari EXIF
+                ->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->save($dir . '/' . $nama_image, 35); // <-- angka 30 = kualitas
         }
 
         // if (auth()->id() == 2) {

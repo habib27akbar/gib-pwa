@@ -25,6 +25,8 @@ class QrProdukController extends Controller
         $item_customer = null;
         $data_unit = null;
         if (Auth::check()) {
+            // var_dump($id);
+            // exit;
             $item_customer = ItemCustomer::select('item_customer.id_lokasi', 'alamat_customer.alamat', 'item_customer.id')
                 ->join('alamat_customer', 'alamat_customer.id', '=', 'item_customer.id_lokasi')
                 ->where('item_customer.id_customer', Auth::user()->id_customer)
@@ -71,11 +73,11 @@ class QrProdukController extends Controller
                 ->where('item_customer.id_lokasi', $id_lokasi)
                 // ->groupBy('item_customer.id_lokasi', 'alamat_customer.alamat', 'item_customer.id')
                 ->get();
-
+            //echo "AAAAA";
 
             if (!empty($_GET['hbb'])) {
-                var_dump($id_customer);
-                var_dump(Auth::user()->id_customer);
+                var_dump($item_customer);
+                //var_dump(Auth::user()->id_customer);
                 echo "<br/>";
             }
             $data_unit = [];
@@ -88,7 +90,19 @@ class QrProdukController extends Controller
                     ->where('unit.id_produk', $item->id_produk)
                     ->where('unit.id_lokasi', $item->id_lokasi)
                     ->get();
-
+                if (!empty($_GET['cekquery'])) {
+                    var_dump($item->id);
+                    var_dump($item->id_customer);
+                    var_dump($item->id_produk);
+                    var_dump($item->id_lokasi);
+                    // $query = DB::table('unit')
+                    //     ->select('unit.id as id_unit', 'unit.serial_number', 'unit.sn', 'unit.tgl_pembelian', 'unit.keterangan', 'unit.id_produk', 'unit.id_lokasi', 'unit.id_customer')
+                    //     ->where('unit.id_item_customer', $item->id)
+                    //     ->where('unit.id_customer', $item->id_customer)
+                    //     ->where('unit.id_produk', $item->id_produk)
+                    //     ->where('unit.id_lokasi', $item->id_lokasi);
+                    // dd($query->toSql(), $query->getBindings());
+                }
                 // var_dump($units);
                 // exit;
 
